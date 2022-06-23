@@ -39,7 +39,7 @@ jobs:
           command: pytest
       - run:
           name: Linting
-          command: flake8
+          command: flake8 --output-file test-reports
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
