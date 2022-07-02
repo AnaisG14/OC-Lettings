@@ -70,7 +70,8 @@ workflows:
     jobs:
       - build-and-test
       - build-and-push-docker-image:
-          requires: build-and-test
+          requires: 
+            - build-and-test
           filters:
             branches:
               only: master
