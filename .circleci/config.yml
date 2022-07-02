@@ -59,7 +59,7 @@ jobs:
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
           docker build -t oc_lettings:$TAG .
-          docker login -u $DOCKER_USER -p $DOCKERHUB_ACCESS_TOKEN
+          docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_ACCESS_TOKEN
           docker push oc_lettings:$TAG
 
 # Invoke jobs via workflows
