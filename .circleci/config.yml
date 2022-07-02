@@ -44,9 +44,9 @@ jobs:
 
   build-and-push-docker-image:
     docker:
-      -image: cimg/go:1.17
+      - image: cimg/go:1.17
         auth:
-          username: anaisg14
+          username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD
 
     steps:
