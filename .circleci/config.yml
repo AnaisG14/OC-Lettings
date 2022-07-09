@@ -62,6 +62,24 @@ jobs:
           docker build -t anaisg14/oc_lettings:$TAG .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           docker push anaisg14/oc_lettings:$TAG
+          
+
+  deploy-on-heroku:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a oc-lettings-ag
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a oc-lettings-ag         
+          
+          
+          
+          
+          
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -73,6 +91,12 @@ workflows:
       - build-and-push-docker-image:
           requires: 
             - build-and-test
+          filters:
+            branches:
+              only: master
+      - deploy-on-heroku:
+          requires:
+            - build-and-push-docker-image:
           filters:
             branches:
               only: master
