@@ -62,7 +62,6 @@ jobs:
           docker build -t anaisg14/oc_lettings:$TAG .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           docker push anaisg14/oc_lettings:$TAG
-          
 
   deploy-on-heroku:
     machine: true
@@ -75,10 +74,6 @@ jobs:
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a oc-lettings-ag
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a oc-lettings-ag         
-          
-          
-          
-          
           
 
 # Invoke jobs via workflows
@@ -96,7 +91,7 @@ workflows:
               only: master
       - deploy-on-heroku:
           requires:
-            - build-and-push-docker-image:
+            - build-and-push-docker-image
           filters:
             branches:
               only: master
