@@ -22,7 +22,8 @@ def get_environment_var(var_name, default_value=None):
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_environment_var('SECRET_KEY', 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s')
+SECRET_KEY = get_environment_var('SECRET_KEY',
+                                 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
