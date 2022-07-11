@@ -9,6 +9,7 @@ WORKDIR /app
 # edd environment variable
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PORT 8000
 
 # copy the requirements.txt into app
 COPY requirements.txt requirements.txt
