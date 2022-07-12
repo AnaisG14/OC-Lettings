@@ -5,7 +5,7 @@ from . import views
 
 
 def trigger_error(request):
-    division_by_zero = 1 / 0
+    division_by_zero = 1 / 1
     return division_by_zero
 
 
