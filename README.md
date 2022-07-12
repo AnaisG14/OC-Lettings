@@ -93,14 +93,13 @@ Ajout d'un compte sur Dockerhub :
 
 Création d'un conteneur :
 - `cd /path/to/OC-Lettings`
-- `docker build -t oc-lettings .`
-- `docker tag oc-lettings oc-lettings:latest`
+- `docker build -t DOCKER_ID/oc_lettings:TAG .`
 
 Ajout du docker sur Dockerhub :
-- `docker push DOCKER_ID/oc-lettings:latest`
+- `docker push DOCKER_ID/oc-lettings:TAG`
 
 Lancement du conteneur :
-- `run -d -p 8000:8000 oc-lettings`
+- `run -d -p 8000:8000 DOCKER_ID/oc-lettings:TAG`
 - Verification du lancement du conteneur et récupération du CONTAINER_ID `docker ps`
 - Aller sur `http://localhost:8000` dans un navigateur.
 - Confirmer que le site fonctionne et qu'il est possible de naviguer (vous devriez voir plusieurs profils et locations).
@@ -110,7 +109,7 @@ Lancement du conteneur :
 #### Heroku
 Ajout d'un compte Heroku : 
 
-- `https://signup.heroku.com/` avec une adresse mail et un password
+- `https://signup.heroku.com/` et créer un compte avec une adresse mail et un password
 
 Installation de heroku CLI : 
 
@@ -119,16 +118,42 @@ https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli
 
 Ajout de l'application sur Heroku :
 
-1- créer l'application et lui ajouter 2 variables d'environnement
-- SECRET_KEY = [valeur de la secret Key]
+1- créer l'application [oc-lettings-xx] et lui ajouter 2 variables d'environnement
+- SECRET_KEY = [valeur de la secret Key choisie]
 - DJANGO_SETTINGS_MODULE = oc_lettings_site.prod_settings
 
-2- relier l'application heroku avec le repository git : 
-- `heroku login` (connexion avec le navigateur web)
+2- pusher le conteneur créer plus haut sur heroku : 
+- `heroku login`
 - `heroku container:login`
-- `heroku container:push -a [nom_app] web`
-- {heroku container:release -a [nom_app] web}
-- Verifier le fonctionnement de l'application sur `https://o[nom_app].herokuapp.com/`
+- `heroku container:push -a [oc-lettings-xx] web`
+- `heroku container:release -a [oc-lettings-xx] web`
+- Verifier le fonctionnement de l'application sur `https://[oc-lettings-xx].herokuapp.com/`
 
+### Configuration de CircleCI
+1- Se connecter via github sur la plateforme CircleCI et autoriser l'application circleci : https://circleci.com/signup/
+
+2- Repérer le projet sur Circleci et cliquer sur 'Set Up Project'
+
+- sélectionner `If you already have .circleci/config.yml in your repo, select the branch it's on to start building`
+- sélectionner la branche 'master'
+- le pipeline va se lancer
+
+3- Configurer les variables d'environnement dans le pipeline
+- ajouter dans `Project settings` => `Environment Variables` :
+    - Name: DOCKER_PASS, Value: [YOUR_DOCKER_PASSWORD]
+    - Name: DOCKER_USER, Value: [YOUR_DOCKER_ID]
+    - Name: HEROKU_API_KEY, Value: [YOUR_HEROKU_API_KEY]
+    - Name: HEROKU_APP_NAME, Value: [oc-lettings-xx]
+    - Name: HEROKU_TOKEN, Value: [YOUR_HEROKU_TOKEN] (pour l'obtenir `heroku authorizations:create`)
+    - Name: SENTRY_DSN, Value: SENTRY_DSN
+
+=> A chaque git push de la branche master, l'application est testée, un conteneur est crée avec un tag correspondant au hash du commit
+  et stocké sur dockerhub et l'application sur Heroku est mise a jour
 
 ## Gestion des erreurs avec Sentry
+- `https://sentry.io/signup/` connexion avec github
+- Creer un projet avec Django
+- Récupérer le dsn ('https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.ingest.sentry.io/xxxxxxx')
+- Ajouter le dsn en tant que variable d'environnement dans heroku Name: SENTRY_DSN, Value: [YOUR_DSN]
+- Test d'une erreur `https://[oc-lettings-xx].herokuapp.com/sentry-debug/`
+- Voir l'erreur `https://sentry.io/organizations/[SENTRY_ID]/issues/`

@@ -128,7 +128,7 @@ STATIC_URL = '/static/'
 
 # configuration of sentry-sdk
 sentry_sdk.init(
-    dsn="https://b0355befbb0b4203aa5f53a08c9f38ec@o1312417.ingest.sentry.io/6561572",
+    dsn=os.environ.get('SENTRY_DSN'),
     integrations=[
         DjangoIntegration(),
     ],
