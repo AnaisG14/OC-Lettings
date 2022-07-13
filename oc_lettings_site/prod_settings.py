@@ -1,7 +1,6 @@
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-# from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -9,29 +8,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-
-# def get_environment_var(var_name, default_value=None):
-#     try:
-#         return os.environ[var_name]
-#     except KeyError:
-#         if default_value is None:
-#             raise ImproperlyConfigured(f"Set the {var_name} environment variable.")
-#         else:
-#             return default_value
-
-
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = get_environment_var('SECRET_KEY',
-#                                  'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s')
 
 SECRET_KEY = os.environ.get('SECRET_KEY',
                             default='fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s')
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = int(os.environ.get('DEBUG', default=1))
+TEMPLATE_DEBUG = int(os.environ.get('TEMPLATE_DEBUG', default=1))
 
-
-ALLOWED_HOSTS = ['oc-lettings-ag.herokuapp.com']
+if not DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = ['oc-lettings-ag.herokuapp.com']
 
 
 # Application definition
@@ -57,7 +46,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
 
 ROOT_URLCONF = 'oc_lettings_site.urls'
@@ -141,7 +129,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # configuration of sentry-sdk
 sentry_sdk.init(
-    dsn="https://b0355befbb0b4203aa5f53a08c9f38ec@o1312417.ingest.sentry.io/6561572",
+    dsn='SENTRY_DSN',
     integrations=[
         DjangoIntegration(),
     ],
