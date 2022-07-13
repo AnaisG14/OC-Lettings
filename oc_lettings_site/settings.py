@@ -18,7 +18,7 @@ DEBUG = int(os.environ.get('DEBUG', default=1))
 TEMPLATE_DEBUG = int(os.environ.get('TEMPLATE_DEBUG', default=1))
 
 
-ALLOWED_HOSTS = ['oc-lettings-ag.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['oc-lettings-ag.herokuapp.com', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
