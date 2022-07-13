@@ -1,5 +1,4 @@
 import os
-import django_heroku
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from django.core.exceptions import ImproperlyConfigured
@@ -154,5 +153,3 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True
 )
-
-django_heroku.settings(locals())
