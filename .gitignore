@@ -2,3 +2,4 @@
 *.pyc
 venv
 flake8_report
+HEROKU variables env

@@ -120,7 +120,8 @@ Ajout de l'application sur Heroku :
 
 1- créer l'application [oc-lettings-xx] et lui ajouter 2 variables d'environnement
 - SECRET_KEY = [valeur de la secret Key choisie]
-- DJANGO_SETTINGS_MODULE = oc_lettings_site.prod_settings
+- DEBUG = 0
+- TEMPLATE_DEBUG = 0
 
 2- pusher le conteneur créer plus haut sur heroku : 
 - `heroku login`

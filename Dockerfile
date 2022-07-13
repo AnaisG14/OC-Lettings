@@ -20,6 +20,7 @@ RUN pip3 install -r requirements.txt
 
 # copy all content in the work directory /app
 COPY . .
+VOLUME /app
 
 # collect static files
 RUN python manage.py collectstatic --noinput
